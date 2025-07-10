@@ -1,66 +1,276 @@
-<!DOCTYPE html>
+import { useState, useEffect } from 'react';
+import { Play, ShoppingBag, Star, Clock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+
+const Index = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [showRedirectAnimation, setShowRedirectAnimation] = useState(false);
+
+  // สำหรับการทดสอบ - ในการใช้งานจริงให้เปลี่ยนเป็น affiliate link ของคุณ
+  const shopeeAffiliateLink = "https://s.shopee.co.th/7V5Hogmu7q/";
+
+  const handleVideoClick = () => {
+    setIsLoading(true);
+    setShowRedirectAnimation(true);
+    
+    // จำลอง loading และ redirect
+    setTimeout(() => {
+      window.open(shopeeAffiliateLink, '_blank');
+      setIsLoading(false);
+      setShowRedirectAnimation(false);
+    }, 2000);
+  };
+
+  const previewData = {
+    title: "🔥 Chudai",
+    description: "🔥 Chudai",
+    thumbnailUrl: "https://streamable.com/giveyt", // ในการใช้งานจริงใส่ URL รูปจริง
+    duration: "1:30",
+    views: "125K",
+    rating: 4.9
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-pink-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <ShoppingBag className="w-8 h-8 text-orange-500" />
+              <h1 className="text-xl font-bold text-gray-800">Twitter Card Preview</h1>
+            </div>
+            <div className="text-sm text-gray-600">
+              Preview Mode
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* คำอธิบายการใช้งาน */}
+        <div className="mb-8 text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+            Twitter Card สำหรับ Shopee Redirect
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            นี่คือตัวอย่างหน้าเว็บที่จะแสดงเป็น Twitter Card แบบ "player" 
+            เมื่อมีการแชร์ลิงก์บน Twitter จะดูเหมือนเป็นวิดีโอที่สามารถเล่นได้
+          </p>
+        </div>
+
+        {/* Twitter Card Preview */}
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
+          {/* ตัวอย่าง Twitter Card */}
+          <Card className="overflow-hidden">
+            <div className="p-4 border-b bg-gray-50">
+              <h3 className="font-semibold text-gray-800">Twitter Card Preview</h3>
+              <p className="text-sm text-gray-600">ลักษณะที่จะแสดงบน Twitter</p>
+            </div>
+            
+            <div className="p-4">
+              {/* Mock Twitter Card */}
+              <div className="border rounded-lg overflow-hidden bg-white shadow-sm">
+                <div 
+                  className="relative aspect-video bg-gradient-to-br from-orange-400 via-red-500 to-pink-500 cursor-pointer group"
+                  onClick={handleVideoClick}
+                >
+                  {/* Thumbnail/Video Preview */}
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                    <div className="relative">
+                      {showRedirectAnimation ? (
+                        <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                      ) : (
+                        <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-all duration-300 group-hover:scale-110">
+                          <Play className="w-8 h-8 text-white ml-1" fill="white" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {/* Video Info Overlay */}
+                  <div className="absolute bottom-3 left-3 right-3">
+                    <div className="flex items-center justify-between text-white text-sm">
+                      <div className="flex items-center space-x-2">
+                        <Clock className="w-4 h-4" />
+                        <span>{previewData.duration}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                        <span>{previewData.rating}</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Shopee Badge */}
+                  <div className="absolute top-3 right-3">
+                    <div className="bg-orange-500 text-white px-2 py-1 rounded text-xs font-bold">
+                      SHOPEE
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-3">
+                  <h4 className="font-bold text-gray-800 line-clamp-2">
+                    {previewData.title}
+                  </h4>
+                  <p className="text-gray-600 text-sm mt-1 line-clamp-2">
+                    {previewData.description}
+                  </p>
+                  <div className="flex items-center justify-between mt-2 text-xs text-gray-500">
+                    <span>{previewData.views} views</span>
+                    <span>Shopee Thailand</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          {/* การตั้งค่า */}
+          <Card className="overflow-hidden">
+            <div className="p-4 border-b bg-gray-50">
+              <h3 className="font-semibold text-gray-800">ข้อมูลที่ใช้ในการสร้าง</h3>
+              <p className="text-sm text-gray-600">Meta tags สำหรับ Twitter Card</p>
+            </div>
+            
+            <div className="p-4 space-y-4">
+              <div>
+                <label className="text-sm font-medium text-gray-700">Card Type</label>
+                <div className="mt-1 p-2 bg-gray-50 rounded text-sm">player</div>
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium text-gray-700">Title</label>
+                <div className="mt-1 p-2 bg-gray-50 rounded text-sm">{previewData.title}</div>
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium text-gray-700">Description</label>
+                <div className="mt-1 p-2 bg-gray-50 rounded text-sm">{previewData.description}</div>
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium text-gray-700">Redirect URL</label>
+                <div className="mt-1 p-2 bg-gray-50 rounded text-sm break-all">{shopeeAffiliateLink}</div>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        {/* HTML Code Example */}
+        <Card className="overflow-hidden">
+          <div className="p-4 border-b bg-gray-50">
+            <h3 className="font-semibold text-gray-800">ตัวอย่าง HTML Code</h3>
+            <p className="text-sm text-gray-600">คัดลอกโค้ดนี้ไปใช้งาน</p>
+          </div>
+          
+          <div className="p-4">
+            <pre className="bg-gray-900 text-green-400 p-4 rounded-lg text-sm overflow-x-auto">
+{`<!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔥 Chudai 🔥</title> <meta name="twitter:card" content="player">
-    <meta name="twitter:title" content="🔥 Chudai 🔥"> <meta name="twitter:description" content="🔥 Chudai 🔥"> <meta name="twitter:image" content="https://kiddykidkiddy.github.io/Chudai/thumbnail.jpg"> 
-    
-    <meta name="twitter:player" content="https://www.youtube.com/watch?v=kiyi-C7NQrQ&pp=0gcJCfwAo7VqN5tD">
+    <title>${previewData.title}</title>
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="player">
+    <meta name="twitter:title" content="${previewData.title}">
+    <meta name="twitter:description" content="${previewData.description}">
+    <meta name="twitter:image" content="https://yourdomain.com/thumbnail.jpg">
+    <meta name="twitter:player" content="https://yourdomain.com/redirect-page.html">
     <meta name="twitter:player:width" content="1280">
     <meta name="twitter:player:height" content="720">
-
-    <meta name="twitter:player:stream" content="https://www.youtube.com/watch?v=kiyi-C7NQrQ&pp=0gcJCfwAo7VqN5tD">
-    <meta name="twitter:player:stream:content_type" content="video/mp4"> 
 
     <style>
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #ff6b35, #f7931e, #ee4d2d); /* สีพื้นหลังไล่เฉดสไตล์ Shopee */
+            background: linear-gradient(135deg, #ff6b35, #f7931e, #ee4d2d);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             font-family: Arial, sans-serif;
-            overflow: hidden;
         }
-        .video-wrapper {
+        .video-container {
             position: relative;
             width: 100%;
             max-width: 1280px;
-            aspect-ratio: 16/9; /* รักษาสัดส่วน 16:9 สำหรับวิดีโอ */
+            aspect-ratio: 16/9;
             background: rgba(0,0,0,0.1);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
         }
-        .video-wrapper iframe {
+        .play-button {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .play-button:hover {
+            background: rgba(255,255,255,1);
+            transform: translate(-50%, -50%) scale(1.1);
         }
     </style>
 </head>
 <body>
-    <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/watch?v=kiyi-C7NQrQ&pp=0gcJCfwAo7VqN5tD" frameborder="0" width="100%" height="100%" allowfullscreen></iframe>
+    <div class="video-container" onclick="redirectToShopee()">
+        <div class="play-button">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="#ee4d2d">
+                <path d="M8 5v14l11-7z"/>
+            </svg>
+        </div>
     </div>
 
     <script>
-        // ลิงก์ Affiliate Shopee ของคุณ
-        // จากที่คุณเคยส่งมา: https://s.shopee.co.th/7V5Hogmu7q
-        const shopeeAffiliateLink = "https://s.shopee.co.th/7V5Hogmu7q"; 
-
         function redirectToShopee() {
-            window.location.replace(shopeeAffiliateLink); 
+            // เปลี่ยน URL นี้เป็น Affiliate Link ของคุณ
+            window.location.replace("${https://s.shopee.co.th/7V5Hogmu7q}");
         }
-
-        // หน่วงเวลา 2.5 วินาที
-        setTimeout(redirectToShopee, 2500);
+        
+        // Auto redirect หลังจาก 3 วินาที (ถ้าต้องการ)
+        // setTimeout(redirectToShopee, 3000);
     </script>
 </body>
-</html>
+</html>`}
+            </pre>
+          </div>
+        </Card>
+
+        {/* Instructions */}
+        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <h3 className="font-semibold text-blue-800 mb-3">📋 ขั้นตอนการใช้งาน</h3>
+          <ol className="list-decimal list-inside space-y-2 text-blue-700">
+            <li>คัดลอกโค้ด HTML ข้างบนไปสร้างไฟล์ใหม่</li>
+            <li>แก้ไข URL ใน meta tags และ JavaScript ให้เป็นลิงก์ของคุณ</li>
+            <li>เตรียมรูป thumbnail ขนาด 1280x720 pixels</li>
+            <li>อัปโหลดไฟล์ขึ้น web hosting (GitHub Pages, Netlify, หรือ hosting อื่นๆ)</li>
+            <li>ทดสอบด้วย Twitter Card Validator</li>
+            <li>แชร์ลิงก์บน Twitter!</li>
+          </ol>
+        </div>
+
+        {/* Warning */}
+        <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <p className="text-yellow-800 text-sm">
+            <strong>⚠️ คำเตือน:</strong> การใช้ Twitter Card เพื่อ redirect ไป affiliate link 
+            ควรปฏิบัติตามนโยบายของ Twitter และ Shopee อย่าใช้เนื้อหาที่ทำให้เข้าใจผิด
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Index;
